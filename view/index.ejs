@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/head.ejs') %>
+
+  <body class="container">
+    <%- include('./partials/nav.ejs') %>
+      <div class="row text-center mb-5">
+        <h5 class="font-monospace welcome mt-5 mb-5">Welcome to the Stefano's blog</h5>
+      </div>
+      <div class="list-group">
+        <% if(blogs.length>0){ %>
+          <% blogs.forEach(blog=>{ %>
+            <div class="list-group-item list-group-item-action row blog-list">
+              <div class="col-4">
+                <a href="/blogs/<%= blog._id %>" aria-current="true">
+                  <h6 class="mb-1">
+                    <%= blog.title %>
+                  </h6>
+                </a>
+              </div>
+             
+              <div class="col-7">
+                <small><%= blog.snippet %></small>
+              </div>
+              <span class="col-1" data-blogid="<%= blog._id %>" onclick="deleteBlog('<%= blog._id %>')"><span class="fui-trash delete-button"></span></span>
+            </div>
+
+            <% })%>
+              <% }else{ %>
+                <p>No blogs yet, please create one <a href="/blogs/add-blog">here</a></p>
+                <% }%>
+      </div>
+      <%- include('./partials/footer.ejs') %>
+        <script>
+          function deleteBlog(e) {
+            let toBeDeletedId = e;
+            console.log(toBeDeletedId)
+            fetch(`/blogs/delete/${toBeDeletedId}`, { method: 'delete' })
+              .then((response) => response.json(), console.log("deleted"))
+              .then((data) => window.location.href = data.redirect)
+              .catch(e => console.error(e))
+          }
+        </script>
+  </body>
+
+</html>

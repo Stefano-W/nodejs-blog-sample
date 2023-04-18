@@ -1,0 +1,12 @@
+.blog-list {
+    display: flex;
+}
+
+.welcome {
+    margin: 0 auto;
+    color: #34495E;
+}
+
+.delete-button{
+    cursor: pointer;
+}
